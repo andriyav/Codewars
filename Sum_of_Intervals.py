@@ -4,19 +4,36 @@ def sum_of_intervals(intervals):
         a = intervals[0]
         b = intervals[1]
         overlap = max(0, min(a[1], b[1]) - max(a[0], b[0]))
-        two_len = (a[1]-a[0]) + (b[1]-b[0])
-        total_len += two_len
-        total_len -= overlap
 
-        print(total_len, intervals)
-        print(total_len, 'total_len')
-        print(overlap, 'overlap')
-        intervals.pop(0)
-        intervals.pop(0)
-        print(total_len, intervals)
-    if len(intervals) == 1:
-        total_len += (intervals[0][1]-intervals[0][0])
-    print(total_len, 'total_len')
+        if overlap > 0:
+            new_intervals = [[min(a[0], b[0]), max(a[1], b[1])]]
+            if len(intervals) > 1:
+                intervals.pop(0)
+                intervals.pop(0)
+            else:
+                print(intervals)
+                return intervals
+            for i in intervals:
+                new_intervals.append(i)
+                print(intervals, 'intervals')
+        intervals = new_intervals.copy()
+        print(intervals)
+
+
+
+
+        # two_len = (a[1]-a[0]) + (b[1]-b[0])
+        # total_len += two_len
+        # total_len -= overlap
+        # print(total_len, intervals)
+        # print(total_len, 'total_len')
+        # print(overlap, 'overlap')
+        # intervals.pop(0)
+        # intervals.pop(0)
+        # print(total_len, intervals)
+    # if len(intervals) == 1:
+    #     total_len += (intervals[0][1]-intervals[0][0])
+    # print(total_len, 'total_len')
 
 
         # new_intervals = [[min(a[0], b[0]), max(a[1], b[1])]]
@@ -40,9 +57,9 @@ def sum_of_intervals(intervals):
     # print(intervals, 'intervals')
 sum_of_intervals([
 [1, 3],
-[4, 5],
-[5, 10],
+[2, 5],
+[4, 10],
 [4, 12],
-[12, 13]
+[8, 13]
 ]
 )
