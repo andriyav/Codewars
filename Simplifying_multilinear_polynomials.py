@@ -1,4 +1,6 @@
 import re
+
+
 def simplify(poly):
     poly_sorted = []
     pattern = r'(\W+)'
@@ -6,8 +8,9 @@ def simplify(poly):
     for i in pol_split:
         i_joined = list(''.join(i))
         i_sorted = sorted(i_joined)
-        i_split = ''.join(i_sorted)      
+        i_split = ''.join(i_sorted)
         poly_sorted.append(i_split)
+        mult_xy = ''
         k = 0
         if poly_sorted[0] == '':
             poly_sorted.pop(0)
@@ -16,70 +19,80 @@ def simplify(poly):
             char = '1' + char
             poly_sorted.pop(k)
             poly_sorted.insert(k, char)
+        pattern = r'(\d+)'
+        dig = re.findall(pattern, char)
+        print(dig)
         for i in char:
             if i.isdigit():
                 pattern = r'(\D+)'
                 xy = re.findall(pattern, char)
-                if_minus = poly_sorted[k-1]
+                if_minus = poly_sorted[k - 1]
                 if if_minus == '-':
                     mult_xy_minus = ['-' + xy[0]]
-                    mult_xy = mult_xy_minus * int(i)
+
+                    # проблема із більшою кількістю цифр на початку
+
+                    mult_xy = mult_xy_minus * int(dig[0])
+
                 else:
-                    mult_xy = xy * int(i)
-                index_char = poly_sorted.index(char)
-                poly_sorted.pop(index_char)
-                for c in mult_xy:
-                    poly_sorted.insert(index_char, c)
-        k += 1
-        poly_without_minus = []
-
-    for n in poly_sorted:
-        if n != '-' and n != '+':
-            poly_without_minus.append(n)
-    print(poly_without_minus)
-    separate_in = []
-    total_separate = []
-    k = 0
-    for x in poly_without_minus:
-        for y in poly_without_minus:
-            if x[0] == '-':
-                x_abs = x[1:]
-                if y[0] == '-':
-                    y_abs = y[1:]
-                    if x_abs == y_abs:
-                        separate_in.append(x)
-                        k += 1
-                    else:
-                        if separate_in != []:
-                            total_separate.append(separate_in)
-
-    separate_in = []
-    total_separate_min = []
-    k = 0
+                    mult_xy = xy * int(dig[0])
+    #             index_char = poly_sorted.index(char)
+    #             poly_sorted.pop(index_char)
+    #             for c in mult_xy:
+    #                 poly_sorted.insert(index_char, c)
+    #     k += 1
+    #     poly_without_minus = []
+    # for n in poly_sorted:
+    #     if n != '-' and n != '+':
+    #         poly_without_minus.append(n)
+    #         n = 1
+    #         sort_list = []
+    #         sort_without_minus = []
     # for x in poly_without_minus:
-    #     for y in poly_without_minus:
-    #         if x[0] != '-':
-    #             x_abs = x
-    #             if y[0] != '-':
-    #                 y_abs = y
-    #                 if x_abs == y_abs:
-    #                     separate_in.append(x)
-    #                     k += 1
-    #                 else:
-    #                     if separate_in != []:
-    #                         total_separate_min.append(separate_in)
-    #                         separate_in = []
-    #         else: break
+    #     if x[0] == '-':
+    #         item = x[1:]
+    #     else:
+    #         item = x
+    #     sort_without_minus.append(item)
+    # unieuq = []
+    # for g in sort_without_minus:
+    #     if g not in unieuq:
+    #         unieuq.append(g)
+    # d = 1
+    # sort_types = []
+    # sorted_types = []
+    # for m in unieuq:
+    #     for k in poly_without_minus:
+    #         if k[0] == '-':
+    #             item = k[1:]
+    #         else:
+    #             item = k
+    #         if m == item:
+    #             sort_types.append(k)
+    #     if sort_types != []:
+    #         sorted_types.append(sort_types)
+    #     sort_types = []
+    #     minus_number = 0
+    #     count_list = []
 
-    print(total_separate)
-    # print(total_separate_min)
-
-
-
-    # for v in poly_without_minus:
-    #     if v[0] != '-':
-    #         pattern = r'(\w+)'
-    #         xy = re.findall(pattern, v)
-    #         print(xy)
-
-simplify("-3xy+3yx-3cd-dc+we")
+    # sorted_types = sorted(sorted_types, key=len, reverse=True)
+    # print(sorted_types)
+    # for item_list in sorted_types:
+    #     for minus_count in item_list:
+    #         if minus_count[0] != '-':
+    #             minus_number += 1
+    #         else:
+    #             minus_number -= 1
+    #     if minus_number != 0:
+    #         if minus_number == 1:
+    #             str_numebr = ''
+    #         elif minus_number == -1:
+    #             str_numebr = '-'
+    #         else:
+    #             str_numebr = str(minus_number)
+    #         if minus_count[0] == '-':
+    #             concatinate_xy = minus_count[1:]
+    #         else:
+    #             concatinate_xy = minus_count
+    #         count_list.append(str_numebr + concatinate_xy)
+    #         minus_number = 0
