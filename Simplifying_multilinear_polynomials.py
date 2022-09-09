@@ -1,6 +1,4 @@
 import re
-
-
 def simplify(poly):
     poly_sorted = []
     pattern = r'(\W+)'
@@ -31,6 +29,9 @@ def simplify(poly):
         n += 1
         poly_with_sign.append(item)
     unique = []
+    if poly_with_sign[0] == '':
+        poly_with_sign.pop(0)
+
     for a in poly_with_sign:  # знайдемо унікальні елементи
         pattern = r'([a-z]+)'
         f = re.findall(pattern, a)
@@ -38,29 +39,55 @@ def simplify(poly):
             unique.append(f[0])
     sort_item_list = []
     sort_item_list_total = []
-    number = 0
     k = 0
     for b in unique:
+        k = 0
         for c in poly_with_sign:  # сортування по поліномам
             pattern = r'([a-z]+)'
             xy = re.findall(pattern, c)
-            pattern = r'(\d+)'
+            pattern = r'([-+]\d+)'
             dig = re.findall(pattern, c)
-            if dig == []:
-                dig = [1]
             if b == xy[0]:
                 sort_item_list.append(poly_with_sign[k])
-                k += 1
+            k += 1
         sort_item_list_total.append(sort_item_list)
         sort_item_list = []
     result = ''
     sum_str = ''
-    for l in sort_item_list_total:  # сумування поліномів та числових значень
+    f_list_total = []
+    d_list_total = []
+    print(sorted(sort_item_list_total), 'sort_item_list')
+    for d in sort_item_list_total:
+        for f in d:
+            if f[0].isalpha():
+                list_f = list(f)
+                list_f.insert(0, '1')
+                list_f = ''.join(list_f)
+                f_list_total.append(list_f)
+            elif f[0] == '-' and f[1] not in '1234567890':
+                list_f = list(f)
+                list_f.insert(1, '1')
+                list_f = ''.join(list_f)
+                f_list_total.append(list_f)
+            elif f[1] in '1234567890':
+                list_f = list(f)
+                list_f = ''.join(list_f)
+                f_list_total.append(list_f)
+            elif f[0] in '1234567890':
+                list_f = list(f)
+                list_f = ''.join(list_f)
+                f_list_total.append(list_f)
+
+        d_list_total.append(f_list_total)
+        f_list_total = []
+        print(d_list_total)
+
+    for l in d_list_total:  # сумування поліномів та числових значень
         sum = 0
         for m in l:
             pattern = r'([a-z]+)'
             xy = re.findall(pattern, m)
-            pattern = r'(-?\d+)'
+            pattern = r'(^[\-\+]?\d)'
             dig = re.findall(pattern, m)
             if dig == []:
                 dig = ['1']
@@ -73,13 +100,32 @@ def simplify(poly):
             sum_str = ''
         else:
             sum_str = str(sum)
-        total = sum_str + xy[0]
+        if sum < 0:
+            total = sum_str + xy[0]
+        elif sum == 0:
+            continue
+        else:
+            total = "+" + sum_str + xy[0]
         result += total
+        print(result, 'result')
+        if result[0] == '+':
+            result = result[1:]
+    result_sort = []
+    pattern = r'([-+]?\w+)'
+    xf = re.split(pattern, result)
+    for g in xf:
+        if g != '':
+            result_sort.append(g)
+    result_sort.sort()
+    print(result_sort)
+    result = ''.join(result_sort)
+
     print(result)
-    # вирішити пробоему стосовно наявності "+", та видалення полінома у випадку числового інтексу рівного нулю
+    return result
+    # вирішити пробоему невірного сортування поліномі
 
 
-simplify("-100xt-22tx+2er")
+simplify("y+x-df")
 # for d in multy_total:
 # memory error to many elements
 
