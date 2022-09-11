@@ -1,4 +1,6 @@
 import re
+
+
 def simplify(poly):
     poly_sorted = []
     pattern = r'(\W+)'
@@ -31,7 +33,6 @@ def simplify(poly):
     unique = []
     if poly_with_sign[0] == '':
         poly_with_sign.pop(0)
-
     for a in poly_with_sign:  # знайдемо унікальні елементи
         pattern = r'([a-z]+)'
         f = re.findall(pattern, a)
@@ -56,7 +57,27 @@ def simplify(poly):
     sum_str = ''
     f_list_total = []
     d_list_total = []
-    print(sorted(sort_item_list_total), 'sort_item_list')
+    list_sort = []
+    print(sort_item_list_total, 'sort_total')
+    # for v in sort_item_list_total: # відсортовано, джойн знак та поліном
+    #     pattern = r'([a-z]+)'
+    #     xy = re.findall(pattern, v[0])
+    #     pattern = r'([-+]*\d*)'
+    #     dig = re.findall(pattern, v[0])
+    #     if dig == []:
+    #         dig = ['']
+    #         print(xy[0], dig[0])
+    #     list_v = [xy[0], dig[0]]
+    #     print(list_v, 'list_v')
+    #     list_sort.append(list_v)
+    #     list_sort.sort()
+    # print(list_sort,'list sort')
+    # concat_list = []
+    # for j in list_sort:
+    #     concat_j = j[1] + j[0]
+    #     concat_list.append([concat_j])
+    # print(concat_list, 'concat_list')
+    print(sort_item_list_total, 'sort_item_lis')
     for d in sort_item_list_total:
         for f in d:
             if f[0].isalpha():
@@ -77,11 +98,13 @@ def simplify(poly):
                 list_f = list(f)
                 list_f = ''.join(list_f)
                 f_list_total.append(list_f)
-
         d_list_total.append(f_list_total)
         f_list_total = []
-        print(d_list_total)
-
+    print(d_list_total, 'd_list_total')
+    for i in d_list_total:
+        if i[0][0] in '234567890':
+            d_list_total = sorted(d_list_total, reverse=True)
+            break
     for l in d_list_total:  # сумування поліномів та числових значень
         sum = 0
         for m in l:
@@ -107,107 +130,11 @@ def simplify(poly):
         else:
             total = "+" + sum_str + xy[0]
         result += total
-        print(result, 'result')
+
         if result[0] == '+':
             result = result[1:]
-    result_sort = []
-    pattern = r'([-+]?\w+)'
-    xf = re.split(pattern, result)
-    for g in xf:
-        if g != '':
-            result_sort.append(g)
-    result_sort.sort()
-    print(result_sort)
-    result = ''.join(result_sort)
-
-    print(result)
-    return result
-    # вирішити пробоему невірного сортування поліномі
+    print(result, 'result')
+    return (result)
 
 
-simplify("y+x-df")
-# for d in multy_total:
-# memory error to many elements
-
-
-#     if poly_sorted[0] == '':
-#         poly_sorted.pop(0)
-# for char in poly_sorted:
-#     if not char[0].isdigit() and not char[0] == '-' and not char[0] == '+':
-#         char = '1' + char
-#         poly_sorted.pop(k)
-#         poly_sorted.insert(k, char)
-#     pattern = r'(\d+)'
-#     dig = re.findall(pattern, char)
-#     for i in char:
-#         if i.isdigit():
-#             pattern = r'(\d+)'
-#             dg = re.findall(pattern, char)
-#             pattern = r'(\D+)'
-#             xy = re.findall(pattern, char)
-#             if_minus = poly_sorted[k-1]
-#             if if_minus == '-':
-#                 mult_xy_minus = ['-' + xy[0]]
-#                 mult_xy = mult_xy_minus * int(dg[0])
-#             else:
-#                 mult_xy = xy * int(dg[0])
-#             print(xy[0])
-#             index_char = poly_sorted.index(xy[0])
-#             poly_sorted.pop(index_char)
-#             for c in mult_xy:
-#                 poly_sorted.insert(index_char, c)
-#     k += 1
-#     poly_without_minus = []
-# for n in poly_sorted:
-#     if n != '-' and n != '+':
-#         poly_without_minus.append(n)
-#         n = 1
-#         sort_list = []
-#         sort_without_minus = []
-# for x in poly_without_minus:
-#     if x[0] == '-':
-#         item = x[1:]
-#     else:
-#         item = x
-#     sort_without_minus.append(item)
-# unieuq = []
-# for g in sort_without_minus:
-#     if g not in unieuq:
-#         unieuq.append(g)
-# d = 1
-# sort_types = []
-# sorted_types = []
-# for m in unieuq:
-#     for k in poly_without_minus:
-#         if k[0] == '-':
-#             item = k[1:]
-#         else:
-#             item = k
-#         if m == item:
-#             sort_types.append(k)
-#     if sort_types != []:
-#         sorted_types.append(sort_types)
-#     sort_types = []
-#     minus_number = 0
-#     count_list = []
-
-# sorted_types = sorted(sorted_types, key=len, reverse=True)
-# for item_list in sorted_types:
-#     for minus_count in item_list:
-#         if minus_count[0] != '-':
-#             minus_number += 1
-#         else:
-#             minus_number -= 1
-#     if minus_number != 0:
-#         if minus_number == 1:
-#             str_numebr = ''
-#         elif minus_number == -1:
-#             str_numebr = '-'
-#         else:
-#             str_numebr = str(minus_number)
-#         if minus_count[0] == '-':
-#             concatinate_xy = minus_count[1:]
-#         else:
-#             concatinate_xy = minus_count
-#         count_list.append(str_numebr + concatinate_xy)
-#         minus_number = 0
+simplify("y-x")
