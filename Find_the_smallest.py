@@ -1,4 +1,3 @@
-import numpy as np
 def smallest(n):
     n_str_list = list(str(n))
     n_int_list = list(map(int, n_str_list))
@@ -19,7 +18,10 @@ def smallest(n):
     if n_int_list[0] == 0:
         n_int_list.pop(0)
     indexes = int(''.join(list(map(str, n_int_list))))
-    result1 = [len_list, 0]
+    if n_int_list[len_list-1] == c:
+        result1 = [len_list, 0 ]
+    else:
+        result1 = [len_list, 0]
     result1.insert(0, indexes)
     print(result1)
 
@@ -120,5 +122,5 @@ def smallest(n):
 
     # print(result)
 
-smallest(273802200974279848)
-# should equal [27380220974279848, 7, 0]
+smallest(903723596612970763)
+# 254598600046537123 проблема з повторенням нулів. Треба брати перший нуль
