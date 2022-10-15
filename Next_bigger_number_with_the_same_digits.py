@@ -1,52 +1,55 @@
-from copy import copy
-from unittest import result
-
 
 def next_bigger(n):
     n_str_list = list(str(n))  # перевід в ліст стрічками
     n_int_list = list(map(int, n_str_list))  # перевід ліст в інтеджер
     n_int_list_muteable = n_int_list.copy()
     range_len = len(n_int_list)
-    min_list = n_int_list_muteable.copy()
-    result6 = []
-    max_list = n ** 2
-    #  переміщенні кожної цифри з ліва на право
 
-    for g1 in range(range_len - 1, 0, -1):
-        n_int_list_muteable = n_int_list.copy()
-        c = 0
-        for g2 in range(range_len - 1, 0, -1):
-            n_int_list_muteable.insert(g1 + 1 + c, n_int_list[g1 - 1])
-            c += 1
-            n_int_list_muteable.pop(g1 + c - 2)
-            if int(''.join(list(map(str, n_int_list_muteable)))) > n:  # зі всього переліку залишається найменше число
-                d = int(''.join(list(map(str, n_int_list_muteable))))
-                if d < max_list:
-                    max_list = int(''.join(list(map(str, n_int_list_muteable))))
+    # if len(n_int_list_muteable) <= 2:
+    #     n_int_list_muteable.insert(0, n_int_list[1])
+    #     n_int_list_muteable.pop(2)
+    #     print(n_int_list_muteable)
+    #     result = int(''.join(list(map(str, (n_int_list_muteable)))))
+    #     print(result)
+    #     return result
 
-            if g1 + c >= range_len:
-                break
-    result1 = max_list
-    print(result1)
-
-    g = 0
-    max_list = n ** 2
-    for g1 in range(range_len, -1, -1):
-        n_int_list_muteable = n_int_list.copy()
-        for g2 in range(range_len, 1 + g, -1):
-            n_int_list_muteable.insert(g2 - 2 - g, n_int_list[g1 - 1])
-            n_int_list_muteable.pop(g2 - g)
-            if int(''.join(list(map(str, n_int_list_muteable)))) > n:
-                d = int(''.join(list(map(str, n_int_list_muteable))))
-                if d < max_list:
-                    max_list = int(''.join(list(map(str, n_int_list_muteable))))
-
-        g += 1
-    result2 = max_list
-    print(result2)
-    result = max([result1, result2])
-    print(result)
+    for i in range(range_len - 2, 0, -1):
+        if n_int_list_muteable[i] < n_int_list_muteable[i + 1]:
+            d = n_int_list_muteable[i]
+            c = n_int_list_muteable[i + 1:]
+            print(d, c)
+            break
+    f = [b for b in n_int_list_muteable[i + 1:] if n_int_list_muteable[i] < b]
+    if f == []:
+        n_int_list_muteable.insert(0, n_int_list[1])
+        n_int_list_muteable.pop(2)
+        print(n_int_list_muteable)
+        result = int(''.join(list(map(str, (n_int_list_muteable)))))
+        print(result)
+        return result
 
 
-next_bigger(895728512)
-# 1234567908
+    else:
+        bigger_min = min(f)
+        index_list_bigger = len(n_int_list) - len(c) + c.index(bigger_min)
+        print(index_list_bigger, 'index_list_bigger')
+        print(n_int_list_muteable, '1')
+        n_int_list_muteable.insert(i, bigger_min)
+        print(n_int_list_muteable, '2')
+        s = n_int_list_muteable.pop(i + 1)
+        print(n_int_list_muteable,'3', s)
+        n_int_list_muteable.insert(index_list_bigger, s)
+        print(n_int_list_muteable, '4')
+        n_int_list_muteable.pop(index_list_bigger + 1)
+        print(n_int_list_muteable, '5')
+        list_for_sort = n_int_list_muteable[i+1:]
+        list_for_sort.sort()
+        print(list_for_sort)
+        result = int(''.join(list(map(str, (n_int_list_muteable[:i+1] + list_for_sort)))))
+        print(result)
+        return result
+
+
+next_bigger(12)
+# 57935558
+# 57895553
