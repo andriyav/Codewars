@@ -4,10 +4,11 @@ import re
 
 def calc(expression):
     while True:
-        pattern = r'(\(-?\d+ [/*+-] -?\d+\))'
+        pattern = r'(-?\d+.?\d? [/*+-] -?\d+.?\d?)'
         re_expression = re.finditer(pattern, expression)
         re_exp_list = list(re_expression)
         expression_list = list(expression)
+        print(re_expression)
         if re_exp_list != []:
             print(re_exp_list[0].span())
             a = 0
@@ -16,8 +17,7 @@ def calc(expression):
             x, y = int(x) - a + s, int(y) - a + s
             del expression_list[x: y:]
             print(expression_list, 'del')
-            expression_list.insert(x, str(operations(re_exp_list[0][0])))
-            a = y - x
+            expression_list.insert(x, str(operations_in_brackets(re_exp_list[0][0])))
             print(expression_list, 'exp')
             expression = ''.join(expression_list)
 
@@ -25,17 +25,18 @@ def calc(expression):
         else:
             break
     print(expression, 'simpled')
+    # operations(expression)
 
 
-def operations(expr):
+def operations_in_brackets(expr):
     print(expr)
-    pattern = r'(-?\d+) ([*/+-]) (-?\d+)'
+    pattern = r'(-?\d+.?\d?) ([*/+-]) (-?\d+.?\d?)'
     re_expression = re.findall(pattern, expr)
-    print(re_expression[0], 're[0]')
+    print(re_expression[0], 're[01]')
     a, act, b = re_expression[0]
     print(a, act, b)
-    a = int(a)
-    b = int(b)
+    a = float(a)
+    b = float(b)
     if act == '*':
         c = a * b
     elif act == '/':
@@ -48,5 +49,20 @@ def operations(expr):
     return c
 
 
-calc("-7  + (-7 - -3)  - (3 * 4)  ")
 
+
+def operations(expr):
+    pattern = r'(-?\d+) ([*/]) (-?\d+)'
+    re_expression = re.findall(pattern, expr)
+    print(re_expression[0])
+    a, act, b = re_expression[0]
+    print(a, act, b)
+    a = float(a)
+    b = float(b)
+    if act == '*':
+        c = a * b
+    elif act == '/':
+        c = a / b
+    print(c)
+
+calc("-7 + (-7 - -33) - (3 + 4)")
