@@ -1,5 +1,5 @@
-
 import re
+
 
 
 def calc(expression):
@@ -52,14 +52,15 @@ def operations_in_brackets(expr):
 
 
 def operations(expression):
-    expression_list = list(expression)
     k = 1
     n = ''
     while True:
+        r = expression
         # print(expression, k, 'Andriy')
-        pattern = r'(-?\d+.?\d*)\s?([*/+])\s?(-?\d+.?\d*)'
+        pattern = r'(-?\d+.?\d*)\s*([*/])\s?(-?\d+(.?\d)?)'
         re_expression = re.finditer(pattern, expression)
         re_exp_list = list(re_expression)
+        expression_list = list(expression)
         # print(re_exp_list, k,  'rrrrr')
         if re_exp_list != []:
             print(re_exp_list, 'es')
@@ -67,6 +68,35 @@ def operations(expression):
             f, d = re_exp_list[0].span()
             x, y = int(f), int(d)
             print(x, y)
+            re_split = re_exp_list[0][0].split()
+            del expression_list[x: y:]
+            a, act, b = re_split
+            # print(a, act, b)
+            a = float(a)
+            b = float(b)
+            if act == '*':
+                n = a * b
+            elif act == '/':
+                n = a / b
+            expression_list.insert(x, str(n))
+            print([expression], 'e+-', k)
+            expression = ''.join(expression_list)
+            print(expression, 'joined')
+            k += 1
+        else:
+            break
+    while True:
+
+        pattern = r'(-?\d+.?\d*)\s?([+-])\s?(-?\d+.?\d*)'
+        re_expression = re.finditer(pattern, expression)
+        re_exp_list = list(re_expression)
+
+        if re_exp_list != []:
+
+            s = 0
+            f, d = re_exp_list[0].span()
+            x, y = int(f), int(d)
+
             re_split = re_exp_list[0][0].split()
 
             a, act, b = re_split
@@ -85,15 +115,6 @@ def operations(expression):
             k += 1
         else:
             break
-        if act == "+" or act == '-':
-            if act == '+':
-                c = a + b
-            elif act == '-':
-                c = a - b
-            print(c)
-            expression = expression[y:]
-            expression = str(c) + expression
-            print(expression, 'joined')
 
 
-calc("-10 / (1.5 + 3.5) * (3 + 4) * (2 + -6) * (-2 + 3) + 3 - 4 ")
+calc("2 * 3 * 2")
