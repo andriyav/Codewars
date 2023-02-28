@@ -8,14 +8,14 @@ For example:
 The input will be a lowercase string with no spaces and an array of digits.'''
 
 def capitalize(s, ind):
-    result = []
-    for index in range(len(s)):
-        if index in ind:
-            result.append(s[index].upper())
-        else:
-            result.append(s[index])
-    result = ''.join(result)
-    return result
+    # result = []
+    # for index in range(len(s)):
+    #     if index in ind:
+    #         result.append(s[index].upper())
+    #     else:
+    #         result.append(s[index])
+    # result = ''.join(result)
+    # return result
 
 
     print(''.join(s[index].upper() if index in ind else s[index] for index in range(len(s))))
